@@ -2,8 +2,6 @@
 #include "bitboard.h"
 #include "chessboard.h"
 //#include "types.h"
-#include <QApplication>
-#include <QLabel>
 
 int main(int argc, char **argv) 
 {
@@ -21,9 +19,5 @@ int main(int argc, char **argv)
     filter.print();
     std::cout << "\n";
     stuff.print();*/
-    QApplication app(argc, argv);
-    QLabel hello("Hello world!");
-
-    hello.show();
-    return app.exec();
+    return 0;
 }
