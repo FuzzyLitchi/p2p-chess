@@ -1,14 +1,19 @@
-p2p-chess: main.o bitboard.o chessboard.o
-	g++ -o p2p-chess main.o bitboard.o chessboard.o
+#OBJS specifies which files to compile as part of the project
+OBJS = main.cpp bitboard.cpp chessboard.cpp
 
-main.o: main.cpp bitboard.h
-	g++ -c main.cpp
+#CC specifies which compiler we're using
+CC = g++
 
-bitboard.o: bitboard.cpp bitboard.h
-	g++ -c bitboard.cpp
+#COMPILER_FLAGS specifies the additional compilation options we're using
+# -w suppresses all warnings
+COMPILER_FLAGS = -w
 
-chessboard.o: chessboard.cpp bitboard.o chessboard.h
-	g++ -c chessboard.cpp
+#LINKER_FLAGS specifies the libraries we're linking against
+LINKER_FLAGS = -lSDL2
 
-clean:
-	rm p2p-chess main.o bitboard.o chessboard.o
+#OBJ_NAME specifies the name of our exectuable
+OBJ_NAME = p2p-chess
+
+#This is the target that compiles our executable
+all : $(OBJS)
+	$(CC) $(OBJS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)
