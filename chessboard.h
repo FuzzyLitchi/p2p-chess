@@ -13,6 +13,18 @@ public:
     }
 
     BitBoard getWhitePawns();
+    BitBoard getWhiteKnights();
+    BitBoard getWhiteBishops();
+    BitBoard getWhiteRooks();
+    BitBoard getWhiteQueens();
+    BitBoard getWhiteKings();
+
+    BitBoard getBlackPawns();
+    BitBoard getBlackKnights();
+    BitBoard getBlackBishops();
+    BitBoard getBlackRooks();
+    BitBoard getBlackQueens();
+    BitBoard getBlackKings();
 
     enum piece {
         white,

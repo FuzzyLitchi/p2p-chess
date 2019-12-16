@@ -122,9 +122,9 @@ void close() {
 }
 
 // Colors for the chess board
-const int BLACK_R = 0x00;
-const int BLACK_G = 0x00;
-const int BLACK_B = 0x00;
+const int BLACK_R = 0x50;
+const int BLACK_G = 0x50;
+const int BLACK_B = 0x50;
 
 const int WHITE_R = 0xFF;
 const int WHITE_G = 0xFF;
@@ -141,12 +141,12 @@ SDL_Rect whiteRook   = {3*sprite_scale, 0, sprite_scale, sprite_scale};
 SDL_Rect whiteQueen  = {4*sprite_scale, 0, sprite_scale, sprite_scale};
 SDL_Rect whiteKing   = {5*sprite_scale, 0, sprite_scale, sprite_scale};
 
-SDL_Rect blackPawn   = {1*sprite_scale, sprite_scale, sprite_scale, sprite_scale};
-SDL_Rect blackKnight = {2*sprite_scale, sprite_scale, sprite_scale, sprite_scale};
-SDL_Rect blackBishop = {3*sprite_scale, sprite_scale, sprite_scale, sprite_scale};
-SDL_Rect blackRook   = {4*sprite_scale, sprite_scale, sprite_scale, sprite_scale};
-SDL_Rect blackQueen  = {5*sprite_scale, sprite_scale, sprite_scale, sprite_scale};
-SDL_Rect blackKing   = {6*sprite_scale, sprite_scale, sprite_scale, sprite_scale};
+SDL_Rect blackPawn   = {0*sprite_scale, sprite_scale, sprite_scale, sprite_scale};
+SDL_Rect blackKnight = {1*sprite_scale, sprite_scale, sprite_scale, sprite_scale};
+SDL_Rect blackBishop = {2*sprite_scale, sprite_scale, sprite_scale, sprite_scale};
+SDL_Rect blackRook   = {3*sprite_scale, sprite_scale, sprite_scale, sprite_scale};
+SDL_Rect blackQueen  = {4*sprite_scale, sprite_scale, sprite_scale, sprite_scale};
+SDL_Rect blackKing   = {5*sprite_scale, sprite_scale, sprite_scale, sprite_scale};
 
 void renderChessboard(ChessBoard chessboard) {
     // Render area white
@@ -170,14 +170,54 @@ void renderChessboard(ChessBoard chessboard) {
     }
 
     // Render each chess piece
-    BitBoard whitePawns = chessboard.getWhitePawns();
+    BitBoard whitePawns   = chessboard.getWhitePawns();
+    BitBoard whiteKnights = chessboard.getWhiteKnights();
+    BitBoard whiteBishops = chessboard.getWhiteBishops();
+    BitBoard whiteRooks   = chessboard.getWhiteRooks();
+    BitBoard whiteQueens  = chessboard.getWhiteQueens();
+    BitBoard whiteKings   = chessboard.getWhiteKings();
+
+    BitBoard blackPawns   = chessboard.getBlackPawns();
+    BitBoard blackKnights = chessboard.getBlackKnights();
+    BitBoard blackBishops = chessboard.getBlackBishops();
+    BitBoard blackRooks   = chessboard.getBlackRooks();
+    BitBoard blackQueens  = chessboard.getBlackQueens();
+    BitBoard blackKings   = chessboard.getBlackKings();
+
     for (int i = 0; i < 64; i++) {
+        SDL_Rect* sprite = NULL;
+
         // If i'th bit in bitboard is present, aka there's a white pawn at this index
         if ((whitePawns.value >> i) & 1) {
-            // Draw pawn
-            SDL_SetRenderDrawColor( gRenderer, 0xff, 0, 0, 0xFF );		
-            SDL_Rect rect = { i%8*scale, i/8*scale, scale, scale };
-            SDL_RenderCopy( gRenderer, gTexture, &whitePawn, &rect );
+            sprite = &whitePawn;
+        } else if ((whiteKnights.value >> i) & 1) {
+            sprite = &whiteKnight;
+        } else if ((whiteBishops.value >> i) & 1) {
+            sprite = &whiteBishop;
+        } else if ((whiteRooks.value >> i) & 1) {
+            sprite = &whiteRook;
+        } else if ((whiteQueens.value >> i) & 1) {
+            sprite = &whiteQueen;
+        } else if ((whiteKings.value >> i) & 1) {
+            sprite = &whiteKing;
+
+        } else if ((blackPawns.value >> i) & 1) {
+            sprite = &blackPawn;
+        } else if ((blackKnights.value >> i) & 1) {
+            sprite = &blackKnight;
+        } else if ((blackBishops.value >> i) & 1) {
+            sprite = &blackBishop;
+        } else if ((blackRooks.value >> i) & 1) {
+            sprite = &blackRook;
+        } else if ((blackQueens.value >> i) & 1) {
+            sprite = &blackQueen;
+        } else if ((blackKings.value >> i) & 1) {
+            sprite = &blackKing;
+        }
+
+        if (sprite != NULL) {
+            SDL_Rect dest = {i%8*scale, i/8*scale, scale, scale};
+            SDL_RenderCopy(gRenderer, gTexture, sprite, &dest);
         }
     }
 }
